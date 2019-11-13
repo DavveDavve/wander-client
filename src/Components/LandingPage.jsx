@@ -7,7 +7,8 @@ import { NavLink } from 'react-router-dom'
 class LandingPage extends Component {
   state = {
     trails: [],
-    errorMessage: null
+    errorMessage: null,
+    hover: false
   }
 
   async componentDidMount() {
@@ -26,7 +27,7 @@ class LandingPage extends Component {
   render() {
     let trailsData = this.state.trails
     let errorMessage, trailsList
-    let sarek = <img src={Sarek} alt='Sarek national park' width='1920' height='1080'/>
+    let sarek = <center><img src={Sarek} alt='Sarek national park' position='centered' width='1400' height='720' id='sarek-image'/></center>
 
     if (this.state.errorMessage) {
       errorMessage = <p id='error-message'>{this.state.errorMessage}</p>
@@ -39,6 +40,13 @@ class LandingPage extends Component {
             return  <NavLink id={`trail_${trail.id}`} key={trail.id} to={`/trails/${trail.id}`}>
                       <Card id={`card_${trail.id}`}>
                         <Card.Header id={`title_${trail.id}`}>{trail.title}</Card.Header>
+                        <Card.Image
+                          id={`image_${trail.id}`}
+                          src={trail.image}
+                          onMouseOut={() => this.setState({hover: false})}
+                          onMouseOver={() => this.setState({hover: true})}
+                          style={{transform: `${this.state.hover ? 'scale(1.5,1.5)' : null}`}}
+                        />
                         <Card.Description id={`description_${trail.id}`}>{trail.description}</Card.Description>
                         <Card.Description id={`extra_${trail.id}`}>{trail.extra}</Card.Description>
                         <Card.Meta id={`location_${trail.id}`}>{trail.location}</Card.Meta>
