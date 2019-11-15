@@ -34,30 +34,45 @@ class LandingPage extends Component {
     }
 
     if (trailsData.length !== 0) {
-      trailsList = (
-        <>
+      if (this.state.hover === false) {
+        trailsList = (
+          <>
+            {trailsData.map(trail => {
+              return  <NavLink id={`trail_${trail.id}`} key={trail.id} to={`/trails/${trail.id}`}>
+                        <Card 
+                          id={`card_${trail.id}`}
+                        >
+                          <Image
+                            id={`image_${trail.id}`}
+                            src={trail.image}
+                            onMouseEnter={() => this.setState({hover: true})}
+                          />
+                        </Card>
+                      </NavLink>
+            })}
+          </>
+        )
+      } else {
+        trailsList = (
+          <>
           {trailsData.map(trail => {
             return  <NavLink id={`trail_${trail.id}`} key={trail.id} to={`/trails/${trail.id}`}>
-                      <Card id={`card_${trail.id}`}>
+                      <Card 
+                        id={`card_${trail.id}`}
+                        onMouseLeave={() => this.setState({hover: false})}
+                      >
                         <Card.Header id={`title_${trail.id}`}>{trail.title}</Card.Header>
-                        <Image
-                          id={`image_${trail.id}`}
-                          src={trail.image}
-                          onMouseOut={() => this.setState({hover: false})}
-                          onMouseOver={() => this.setState({hover: true})}
-                          style={{transform: `${this.state.hover ? 'scale(1.5,1.5)' : 'scale(1,1)'}`}}
-                        />
                         <Card.Description id={`description_${trail.id}`}>{trail.description}</Card.Description>
                         <Card.Description id={`extra_${trail.id}`}>{trail.extra}</Card.Description>
                         <Card.Meta id={`location_${trail.id}`}>{trail.location}</Card.Meta>
                         <Card.Meta id={`duration_${trail.id}`}>{trail.duration}</Card.Meta>
                         <Card.Meta id={`intensity_${trail.id}`}>{trail.intensity}</Card.Meta>
-                      </Card>                      
+                      </Card>
                     </NavLink>
-
-          })}
-        </>
-      )
+            })}
+          </>
+        )
+      } 
     }
 
     return (
